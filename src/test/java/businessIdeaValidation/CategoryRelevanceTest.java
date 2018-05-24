@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 
 public class CategoryRelevanceTest {
@@ -64,8 +63,8 @@ public class CategoryRelevanceTest {
 
         Cluster clusterOne = clusters.get(0);
         Cluster clusterTwo = clusters.get(1);
-        assertEquals(0.5,clusterOne.getRelevance());
-        assertEquals(0.1,clusterTwo.getRelevance());
+        assertEquals(0.5,clusterOne.getRelevance(),Double.POSITIVE_INFINITY);
+        assertEquals(0.1,clusterTwo.getRelevance(),Double.POSITIVE_INFINITY);
     }
 
     @Test
@@ -79,8 +78,8 @@ public class CategoryRelevanceTest {
 
         Cluster clusterOne = clusters.get(0);
         Cluster clusterTwo = clusters.get(1);
-        assertEquals(1,clusterOne.getRelevance());
-        assertEquals(0,clusterTwo.getRelevance());
+        assertEquals(1,clusterOne.getRelevance(),Double.POSITIVE_INFINITY);
+        assertEquals(0,clusterTwo.getRelevance(),Double.POSITIVE_INFINITY);
     }
 
     @Test(expected = InvalidOperationException.class)

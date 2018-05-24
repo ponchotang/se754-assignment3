@@ -50,7 +50,7 @@ public class CategoryPopularityTest {
         List<Cluster> clusters = documentManager.getClusters();
         assertEquals(1,clusters.size());
         Cluster onlyCluster = clusters.get(0);
-        assertEquals(1,onlyCluster.getPopularity());
+        assertEquals(1,onlyCluster.getPopularity(),Double.POSITIVE_INFINITY);
     }
 
     @Test
@@ -119,9 +119,9 @@ public class CategoryPopularityTest {
         Cluster cluster1 = clusters.get(0);
         Cluster cluster2 = clusters.get(1);
         Cluster cluster3 = clusters.get(2);
-        assertEquals(0.6,cluster2.getPopularity());
-        assertEquals(0.3,cluster3.getPopularity());
-        assertEquals(0.1,cluster1.getPopularity());
+        assertEquals(0.6,cluster2.getPopularity(),Double.POSITIVE_INFINITY);
+        assertEquals(0.3,cluster3.getPopularity(),Double.POSITIVE_INFINITY);
+        assertEquals(0.1,cluster1.getPopularity(),Double.POSITIVE_INFINITY);
 
     }
 }

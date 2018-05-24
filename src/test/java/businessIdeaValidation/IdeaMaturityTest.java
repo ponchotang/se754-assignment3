@@ -62,7 +62,7 @@ public class IdeaMaturityTest {
         _documentManager.setClusterRelevance(1,0.1);
 
         // Then
-        assertEquals(0.775,_documentManager.computeIdeaMaturity());
+        assertEquals(0.775,_documentManager.computeIdeaMaturity(),Double.POSITIVE_INFINITY);
     }
 
 
