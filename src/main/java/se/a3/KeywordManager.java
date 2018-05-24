@@ -9,6 +9,7 @@ public class KeywordManager {
         _collection = collection;
     }
 
+    // Words are added to collection at the end of the list by default
     public KeywordCollection addWord(String name){
         Keyword keyword = new Keyword(name);
         ArrayList<Keyword> list = _collection.getList();
@@ -21,9 +22,7 @@ public class KeywordManager {
     public KeywordCollection removeWord(int index) throws ArrayIndexOutOfBoundsException{
         ArrayList<Keyword> list = _collection.getList();
         list.remove(index);
-        for (int i = index; i < list.size(); i++){
-            list.get(i).setWeight(list.get(i).getWeight()-1);
-        }
+        adjustWeights(index,list,-1);
         KeywordCollection newCollection = new KeywordCollection(list);
         return newCollection;
     }
@@ -34,10 +33,16 @@ public class KeywordManager {
         word.setWeight(pos);
         list.remove(index);
         list.add(pos,word);
-        for (int i = 0; i < list.size(); i++){
-            list.get(i).setWeight(list.get(i).getWeight()+1);
-        }
+        adjustWeights(0,list,1);
         KeywordCollection newCollection = new KeywordCollection(list);
         return newCollection;
+    }
+
+    public void adjustWeights(int index, ArrayList<Keyword> list, int weight){
+        for (int i = index; i < list.size(); i++){
+            Keyword word = list.get(i);
+            int wordWeight = word.getWeight();
+            word.setWeight(wordWeight+weight);
+        }
     }
 }
