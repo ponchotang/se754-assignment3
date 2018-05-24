@@ -35,4 +35,26 @@ public class KeywordPriorityTest {
         //Then
         Assert.assertEquals("words Here are five key", swappedCollection.getString());
     }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testChangePriorityOutOfBounds(){
+        //Given
+        String userText = "Here are five key words";
+
+        //When
+        KeywordCollection collection = new KeywordCollection(userText);
+        KeywordManager keywordManager = new KeywordManager(collection);
+        KeywordCollection swappedCollection = keywordManager.changePriority(4,-1);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testChangePriorityArrayOutOfBounds(){
+        //Given
+        String userText = "Here are five key words";
+
+        //When
+        KeywordCollection collection = new KeywordCollection(userText);
+        KeywordManager keywordManager = new KeywordManager(collection);
+        KeywordCollection swappedCollection = keywordManager.changePriority(-1,0);
+    }
 }

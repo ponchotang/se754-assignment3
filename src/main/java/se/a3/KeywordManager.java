@@ -18,7 +18,7 @@ public class KeywordManager {
         return newCollection;
     }
 
-    public KeywordCollection removeWord(int index){
+    public KeywordCollection removeWord(int index) throws ArrayIndexOutOfBoundsException{
         ArrayList<Keyword> list = _collection.getList();
         list.remove(index);
         for (int i = index; i < list.size(); i++){
@@ -28,7 +28,7 @@ public class KeywordManager {
         return newCollection;
     }
 
-    public KeywordCollection changePriority(int index, int pos){
+    public KeywordCollection changePriority(int index, int pos) throws IndexOutOfBoundsException{
         ArrayList<Keyword> list = _collection.getList();
         Keyword word = list.get(index);
         word.setWeight(pos);
