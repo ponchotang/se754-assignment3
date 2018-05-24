@@ -3,12 +3,14 @@ package businessIdeaValidation;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import se.a3.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+
 
 public class CategoryRelevanceTest {
     DocumentManager _documentManager;

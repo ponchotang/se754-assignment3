@@ -3,9 +3,12 @@ package businessIdeaValidation;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import se.a3.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class IdeaMaturityTest {
     DocumentManager _documentManager;
@@ -57,10 +60,9 @@ public class IdeaMaturityTest {
         // When
         _documentManager.setClusterRelevance(0,1);
         _documentManager.setClusterRelevance(1,0.1);
-        _documentManager.computeIdeaMaturity();
 
         // Then
-        assertEquals(0.775,_documentManager.getIdeaMaturity());
+        assertEquals(0.775,_documentManager.computeIdeaMaturity());
     }
 
 
