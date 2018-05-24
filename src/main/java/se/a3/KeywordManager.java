@@ -12,6 +12,7 @@ public class KeywordManager {
     public KeywordCollection addWord(String name){
         Keyword keyword = new Keyword(name);
         ArrayList<Keyword> list = _collection.getList();
+        keyword.setWeight(list.size()+1);
         list.add(keyword);
         KeywordCollection newCollection = new KeywordCollection(list);
         return newCollection;
@@ -20,6 +21,9 @@ public class KeywordManager {
     public KeywordCollection removeWord(int index){
         ArrayList<Keyword> list = _collection.getList();
         list.remove(index);
+        for (int i = index; i < list.size(); i++){
+            list.get(i).setWeight(list.get(i).getWeight()-1);
+        }
         KeywordCollection newCollection = new KeywordCollection(list);
         return newCollection;
     }
@@ -27,8 +31,12 @@ public class KeywordManager {
     public KeywordCollection changePriority(int index, int pos){
         ArrayList<Keyword> list = _collection.getList();
         Keyword word = list.get(index);
+        word.setWeight(pos);
         list.remove(index);
         list.add(pos,word);
+        for (int i = 0; i < list.size(); i++){
+            list.get(i).setWeight(list.get(i).getWeight()+1);
+        }
         KeywordCollection newCollection = new KeywordCollection(list);
         return newCollection;
     }

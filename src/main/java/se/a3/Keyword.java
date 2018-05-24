@@ -17,4 +17,8 @@ public class Keyword {
     public int getWeight(){
         return _weight;
     }
+
+    public void setWeight(int val){
+        _weight = val;
+    }
 }

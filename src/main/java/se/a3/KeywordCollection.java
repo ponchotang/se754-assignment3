@@ -7,8 +7,9 @@ public class KeywordCollection {
     public KeywordCollection(String text){
         String[] keywords = text.split(" ");
 
-        for (String keyword : keywords){
-            Keyword word = new Keyword(keyword);
+        for (int i = 0; i < keywords.length; i++){
+            Keyword word = new Keyword(keywords[i]);
+            word.setWeight(i+1);
             _list.add(word);
         }
     }

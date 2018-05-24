@@ -19,7 +19,8 @@ public class AddRemoveKeywordTest {
         KeywordCollection largerCollection = keywordManager.addWord("now");
 
         //Then
-        Assert.assertEquals(6,largerCollection.getLength());
+        Assert.assertEquals(6, largerCollection.getLength());
+        Assert.assertEquals(6, largerCollection.getList().get(5).getWeight());
     }
 
     @Test
@@ -34,6 +35,7 @@ public class AddRemoveKeywordTest {
 
         //Then
         Assert.assertEquals(4,smallerCollection.getLength());
+        Assert.assertEquals(4, smallerCollection.getList().get(3).getWeight());
     }
 
 }
