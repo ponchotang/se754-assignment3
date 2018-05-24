@@ -1,6 +1,12 @@
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import se.a3.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class DocumentClusteringLabelTest {
     List<Document> searchResults;
@@ -31,17 +37,17 @@ public class DocumentClusteringLabelTest {
 
         clusterer = Mockito.mock(IClusterer.class);
 
-        Mockito.doReturn(clusters).when(clusterer).cluster(searchResults);
+        Mockito.doReturn(clusters).when(clusterer).createClusters(searchResults);
     }
 
     @Test
     public void testCategoryIsLabelled() {
         // Given
         documentManager = new DocumentManager(searchResults, clusterer, extractor, null);
-        Mockito.doReturn("one").when(extractor).extract("one one");
+        Mockito.doReturn("one").when(extractor).extractKeywords("one one");
 
         // When
-        documentManager.cluster();
+        documentManager.createClusters();
         documentManager.generateLabels();
         Category category = documentManager.getClusters().get(0);
 

@@ -1,8 +1,15 @@
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import se.a3.Document;
+import se.a3.DocumentSearcher;
+import se.a3.ISearchEngine;
+import se.a3.KeywordCollection;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class DocumentSearcherTest {
     DocumentSearcher searcher;
@@ -14,6 +21,7 @@ public class DocumentSearcherTest {
     public void setUp() {
         searchResults = new ArrayList<String>();
         searchEngine = Mockito.mock(ISearchEngine.class);
+        searcher = new DocumentSearcher(searchEngine);
     }
 
     @Test
@@ -30,7 +38,7 @@ public class DocumentSearcherTest {
         List<Document> resultsAsDocuments = searcher.search(new KeywordCollection("one two three four"));
 
         // Then
-        assertTrue(3, resultsAsDocuments.size());
+        assertEquals(3, resultsAsDocuments.size());
     }
 
     @Test
@@ -42,6 +50,6 @@ public class DocumentSearcherTest {
         List<Document> resultsAsDocuments = searcher.search(keywords);
 
         // Then
-        assertTrue(0, resultsAsDocuments.size());
+        assertEquals(0, resultsAsDocuments.size());
     }
 }

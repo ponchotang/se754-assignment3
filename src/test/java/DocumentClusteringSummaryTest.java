@@ -1,6 +1,12 @@
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import se.a3.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class DocumentClusteringSummaryTest {
     List<Document> searchResults;
@@ -31,18 +37,18 @@ public class DocumentClusteringSummaryTest {
 
         clusterer = Mockito.mock(IClusterer.class);
 
-        Mockito.doReturn(clusters).when(clusterer).cluster(searchResults);
+        Mockito.doReturn(clusters).when(clusterer).createClusters(searchResults);
     }
 
     @Test
     public void testCategoryHasSummary() {
         // Given
         String summaryText = "a lot of ones";
-        documentManager = new DocumentManager(searchResults, clusterer, extractor, summariser);
+        documentManager = new DocumentManager(searchResults, clusterer, null, summariser);
         Mockito.doReturn(summaryText).when(summariser).summarise("one one one");
 
         // When
-        documentManager.cluster();
+        documentManager.createClusters();
         documentManager.generateSummaries();
         Category category = documentManager.getClusters().get(0);
 
@@ -56,6 +62,6 @@ public class DocumentClusteringSummaryTest {
         documentManager = new DocumentManager(searchResults, clusterer, null, summariser);
 
         // When
-        documentManager.generateSummary();
+        documentManager.generateSummaries();
     }
 }
