@@ -18,8 +18,44 @@ public class DocumentManager {
         _summariser = summariser;
     }
 
-    public void createClusters() {
+    public void createClusters(){
         _clusters = _clusterer.createClusters(_searchResults);
+    }
+
+    public List<Category> getClusters(){
+        return _clusters;
+    }
+
+    public void assignPopularityToClusters(){
+        int totalNoOfDocuments = 0;
+        for(Category c : _clusters){
+            totalNoOfDocuments += c.getNoOfDocuments();
+        }
+        for(Category c : _clusters){
+            c.setPopularity(c.getNoOfDocuments()/totalNoOfDocuments);
+        }
+    }
+
+    public void setClusterRelevance(int position, double relevance){
+        if(relevance < 0 || relevance > 1){
+            throw new InvalidOperationException();
+        }
+
+        try {
+            _clusters.get(position).setRelevance(relevance);
+        } catch (IndexOutOfBoundsException e){
+            throw new InvalidOperationException();
+        }
+    }
+
+    public double computeIdeaMaturity(){
+        double maturity = 0;
+
+        for(Category c : _clusters){
+            maturity += c.getPopularity() * c.getRelevance();
+        }
+
+        return maturity;
     }
 
     public void generateLabels() {
@@ -43,9 +79,4 @@ public class DocumentManager {
             cluster.setSummary(summary);
         }
     }
-
-    public List<Category> getClusters() {
-        return _clusters;
-    }
-
 }
