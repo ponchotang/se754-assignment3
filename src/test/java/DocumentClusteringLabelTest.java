@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import se.a3.*;
 
@@ -36,6 +37,7 @@ public class DocumentClusteringLabelTest {
         clusters.add(catThree);
 
         clusterer = Mockito.mock(IClusterer.class);
+        extractor = Mockito.mock(IKeywordExtractor.class);
 
         Mockito.doReturn(clusters).when(clusterer).createClusters(searchResults);
     }

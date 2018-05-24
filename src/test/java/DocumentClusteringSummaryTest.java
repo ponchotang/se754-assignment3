@@ -36,6 +36,7 @@ public class DocumentClusteringSummaryTest {
         clusters.add(catThree);
 
         clusterer = Mockito.mock(IClusterer.class);
+        summariser = Mockito.mock(ITextSummariser.class);
 
         Mockito.doReturn(clusters).when(clusterer).createClusters(searchResults);
     }
@@ -45,7 +46,7 @@ public class DocumentClusteringSummaryTest {
         // Given
         String summaryText = "a lot of ones";
         documentManager = new DocumentManager(searchResults, clusterer, null, summariser);
-        Mockito.doReturn(summaryText).when(summariser).summarise("one one one");
+        Mockito.doReturn(summaryText).when(summariser).summarise("one one");
 
         // When
         documentManager.createClusters();
