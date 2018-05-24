@@ -2,6 +2,7 @@ package keywordExtraction;
 
 import org.junit.Assert;
 import org.junit.Test;
+import se.a3.*;
 
 /**
  * Users can prioritise the keywords by changing the weights or order of the keywords.
@@ -18,7 +19,7 @@ public class KeywordPriorityTest {
         KeywordCollection swappedCollection = keywordManager.changePriority(1,0);
 
         //Then
-        Assert.assertEquals("are Here five key words", swappedCollection.toString());
+        Assert.assertEquals("are Here five key words", swappedCollection.getString());
     }
 
     @Test
@@ -32,6 +33,6 @@ public class KeywordPriorityTest {
         KeywordCollection swappedCollection = keywordManager.changePriority(4,0);
 
         //Then
-        Assert.assertEquals("words Here are five key", swappedCollection.toString());
+        Assert.assertEquals("words Here are five key", swappedCollection.getString());
     }
 }

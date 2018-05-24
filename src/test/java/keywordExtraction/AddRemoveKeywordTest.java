@@ -2,7 +2,7 @@ package keywordExtraction;
 
 import org.junit.Assert;
 import org.junit.Test;
-
+import se.a3.*;
 /**
  * Users can inject or remove keywords from the keyword list.
  */
@@ -13,6 +13,7 @@ public class AddRemoveKeywordTest {
         String userText = "Here are five key words";
 
         //When
+
         KeywordCollection collection = new KeywordCollection(userText);
         KeywordManager keywordManager = new KeywordManager(collection);
         KeywordCollection largerCollection = keywordManager.addWord("now");
