@@ -5,7 +5,12 @@ public class KeywordCollection {
     private ArrayList<Keyword> _list = new ArrayList<Keyword>();
 
     public KeywordCollection(String text){
+        String[] keywords = text.split(" ");
 
+        for (String keyword : keywords){
+            Keyword word = new Keyword(keyword);
+            _list.add(word);
+        }
     }
 
     public KeywordCollection(ArrayList<Keyword> list){
@@ -13,11 +18,18 @@ public class KeywordCollection {
     }
 
     public int getLength(){
-        return 0;
+        return _list.size();
     }
 
     public String getString(){
-        return null;
+        String collectionString = "";
+        for (Keyword word: _list){
+            String string = word.getWord();
+            collectionString = collectionString.concat(string) + " ";
+        }
+        String result;
+        result = collectionString.trim();
+        return result;
     }
 
     public ArrayList<Keyword> getList(){

@@ -11,10 +11,10 @@ public class Keyword {
     }
 
     public String getWord(){
-        return null;
+        return _word;
     }
 
     public int getWeight(){
-        return 0;
+        return _weight;
     }
 }
