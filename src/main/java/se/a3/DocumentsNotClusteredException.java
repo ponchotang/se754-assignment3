@@ -1,4 +1,4 @@
 package se.a3;
 
-public class DocumentsNotClusteredException extends Exception {
+public class DocumentsNotClusteredException extends RuntimeException {
 }

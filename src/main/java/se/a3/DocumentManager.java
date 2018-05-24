@@ -1,5 +1,6 @@
 package se.a3;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentManager {
@@ -18,19 +19,33 @@ public class DocumentManager {
     }
 
     public void createClusters() {
-        
+        _clusters = _clusterer.createClusters(_searchResults);
     }
 
     public void generateLabels() {
+        if (_clusters == null) {
+            throw new DocumentsNotClusteredException();
+        }
 
+        for (Category cluster: _clusters) {
+            String label = _extractor.extractKeywords(cluster.getDocumentContents());
+            cluster.setLabel(label);
+        }
     }
 
     public void generateSummaries() {
+        if (_clusters == null) {
+            throw new DocumentsNotClusteredException();
+        }
 
+        for (Category cluster: _clusters) {
+            String summary = _summariser.summarise(cluster.getDocumentContents());
+            cluster.setSummary(summary);
+        }
     }
 
     public List<Category> getClusters() {
-        return null;
+        return _clusters;
     }
 
 }
