@@ -38,14 +38,14 @@ public class IdeaMaturityTest {
         _documentManager = new DocumentManager(searchResults, _clusterer, _extractor, _summariser);
 
         // Two clusters returned from two documents as search results
-        Cluster clusterOne = new Cluster();
+        Category clusterOne = new Category();
         clusterOne.add(docOne);
-        Cluster clusterTwo = new Cluster();
+        Category clusterTwo = new Category();
         clusterTwo.add(docTwo1);
         clusterTwo.add(docTwo2);
         clusterTwo.add(docTwo3);
 
-        List<Cluster> twoClusters = new ArrayList<Cluster>();
+        List<Category> twoClusters = new ArrayList<Category>();
         twoClusters.add(clusterTwo);
         twoClusters.add(clusterOne);
         Mockito.doReturn(twoClusters).when(_clusterer).createClusters(searchResults);

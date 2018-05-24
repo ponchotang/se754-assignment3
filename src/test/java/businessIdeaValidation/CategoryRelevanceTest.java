@@ -37,13 +37,13 @@ public class CategoryRelevanceTest {
         _documentManager = new DocumentManager(searchResults, _clusterer, _extractor, _summariser);
 
         // Two clusters returned from two documents as search results
-        Cluster clusterOne = new Cluster();
+        Category clusterOne = new Category();
         clusterOne.add(docOne1);
         clusterOne.add(docOne2);
-        Cluster clusterTwo = new Cluster();
+        Category clusterTwo = new Category();
         clusterTwo.add(docTwo);
 
-        List<Cluster> twoClusters = new ArrayList<Cluster>();
+        List<Category> twoClusters = new ArrayList<Category>();
         twoClusters.add(clusterOne);
         twoClusters.add(clusterTwo);
         Mockito.doReturn(twoClusters).when(_clusterer).createClusters(searchResults);
@@ -59,10 +59,10 @@ public class CategoryRelevanceTest {
         _documentManager.setClusterRelevance(1,0.1);
 
         // Then
-        List<Cluster> clusters = _documentManager.getClusters();
+        List<Category> clusters = _documentManager.getClusters();
 
-        Cluster clusterOne = clusters.get(0);
-        Cluster clusterTwo = clusters.get(1);
+        Category clusterOne = clusters.get(0);
+        Category clusterTwo = clusters.get(1);
         assertEquals(0.5,clusterOne.getRelevance(),Double.POSITIVE_INFINITY);
         assertEquals(0.1,clusterTwo.getRelevance(),Double.POSITIVE_INFINITY);
     }
@@ -74,10 +74,10 @@ public class CategoryRelevanceTest {
         _documentManager.setClusterRelevance(1,0);
 
         // Then
-        List<Cluster> clusters = _documentManager.getClusters();
+        List<Category> clusters = _documentManager.getClusters();
 
-        Cluster clusterOne = clusters.get(0);
-        Cluster clusterTwo = clusters.get(1);
+        Category clusterOne = clusters.get(0);
+        Category clusterTwo = clusters.get(1);
         assertEquals(1,clusterOne.getRelevance(),Double.POSITIVE_INFINITY);
         assertEquals(0,clusterTwo.getRelevance(),Double.POSITIVE_INFINITY);
     }

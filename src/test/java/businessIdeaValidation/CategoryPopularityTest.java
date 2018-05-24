@@ -34,9 +34,9 @@ public class CategoryPopularityTest {
         DocumentManager documentManager = new DocumentManager(searchResults, _clusterer, _extractor, _summariser);
 
         // One cluster returned from one document as search results
-        Cluster clusterOne = new Cluster();
+        Category clusterOne = new Category();
         clusterOne.add(docOne);
-        List<Cluster> oneCluster = new ArrayList<Cluster>();
+        List<Category> oneCluster = new ArrayList<Category>();
         oneCluster.add(clusterOne);
         Mockito.doReturn(oneCluster).when(_clusterer).createClusters(searchResults);
 
@@ -47,9 +47,9 @@ public class CategoryPopularityTest {
 
         // Then
         // clusters should only have one cluster with popularity of 1
-        List<Cluster> clusters = documentManager.getClusters();
+        List<Category> clusters = documentManager.getClusters();
         assertEquals(1,clusters.size());
-        Cluster onlyCluster = clusters.get(0);
+        Category onlyCluster = clusters.get(0);
         assertEquals(1,onlyCluster.getPopularity(),Double.POSITIVE_INFINITY);
     }
 
@@ -86,10 +86,10 @@ public class CategoryPopularityTest {
         DocumentManager documentManager = new DocumentManager(searchResults, _clusterer, _extractor, _summariser);
 
         // Three clusters returned from ten documents as search results
-        Cluster clusterOne = new Cluster();
+        Category clusterOne = new Category();
         clusterOne.add(docOne);
 
-        Cluster clusterTwo = new Cluster();
+        Category clusterTwo = new Category();
         clusterTwo.add(docSix1);
         clusterTwo.add(docSix2);
         clusterTwo.add(docSix3);
@@ -97,12 +97,12 @@ public class CategoryPopularityTest {
         clusterTwo.add(docSix5);
         clusterTwo.add(docSix6);
 
-        Cluster clusterThree = new Cluster();
+        Category clusterThree = new Category();
         clusterThree.add(docThree1);
         clusterThree.add(docThree2);
         clusterThree.add(docThree3);
 
-        List<Cluster> threeClusters = new ArrayList<Cluster>();
+        List<Category> threeClusters = new ArrayList<Category>();
         threeClusters.add(clusterTwo);
         threeClusters.add(clusterThree);
         threeClusters.add(clusterOne);
@@ -115,10 +115,10 @@ public class CategoryPopularityTest {
 
         // Then
         // clusters should only have three cluster with popularity of 0.6, 0.3 and 0.1
-        List<Cluster> clusters = documentManager.getClusters();
-        Cluster cluster1 = clusters.get(2);
-        Cluster cluster2 = clusters.get(0);
-        Cluster cluster3 = clusters.get(1);
+        List<Category> clusters = documentManager.getClusters();
+        Category cluster1 = clusters.get(2);
+        Category cluster2 = clusters.get(0);
+        Category cluster3 = clusters.get(1);
         assertEquals(0.6,cluster2.getPopularity(),Double.POSITIVE_INFINITY);
         assertEquals(0.3,cluster3.getPopularity(),Double.POSITIVE_INFINITY);
         assertEquals(0.1,cluster1.getPopularity(),Double.POSITIVE_INFINITY);

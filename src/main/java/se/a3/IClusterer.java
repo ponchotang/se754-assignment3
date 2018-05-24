@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface IClusterer {
 
-    List<Cluster> createClusters(List<Document> documents);
+    List<Category> createClusters(List<Document> documents);
 
 }

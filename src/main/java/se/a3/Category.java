@@ -3,7 +3,7 @@ package se.a3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cluster {
+public class Category {
     private List<Document> _documents = new ArrayList<Document>();
 
     private boolean _isRelevanceSet = false;

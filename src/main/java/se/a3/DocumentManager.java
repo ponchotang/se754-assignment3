@@ -4,7 +4,7 @@ import java.util.List;
 
 public class DocumentManager {
     List<Document> _searchResults;
-    List<Cluster> _clusters;
+    List<Category> _clusters;
 
     IClusterer _clusterer;
     IKeywordExtractor _extractor;
@@ -21,16 +21,16 @@ public class DocumentManager {
         _clusters = _clusterer.createClusters(_searchResults);
     }
 
-    public List<Cluster> getClusters(){
+    public List<Category> getClusters(){
         return _clusters;
     }
 
     public void assignPopularityToClusters(){
         int totalNoOfDocuments = 0;
-        for(Cluster c : _clusters){
+        for(Category c : _clusters){
             totalNoOfDocuments += c.getNoOfDocuments();
         }
-        for(Cluster c : _clusters){
+        for(Category c : _clusters){
             c.setPopularity(c.getNoOfDocuments()/totalNoOfDocuments);
         }
     }
@@ -50,7 +50,7 @@ public class DocumentManager {
     public double computeIdeaMaturity(){
         double maturity = 0;
 
-        for(Cluster c : _clusters){
+        for(Category c : _clusters){
             maturity += c.getPopularity() * c.getRelevance();
         }
 
