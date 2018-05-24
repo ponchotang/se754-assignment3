@@ -38,7 +38,7 @@ public class CategoryPopularityTest {
         clusterOne.add(docOne);
         List<Cluster> oneCluster = new ArrayList<Cluster>();
         oneCluster.add(clusterOne);
-        Mockito.doReturn(oneCluster).when(_clusterer).createClusters();
+        Mockito.doReturn(oneCluster).when(_clusterer).createClusters(searchResults);
 
         //When
         // create clusters and assign popularity based on number of documents per cluster
@@ -103,10 +103,10 @@ public class CategoryPopularityTest {
         clusterThree.add(docThree3);
 
         List<Cluster> threeClusters = new ArrayList<Cluster>();
-        threeClusters.add(clusterOne);
         threeClusters.add(clusterTwo);
         threeClusters.add(clusterThree);
-        Mockito.doReturn(threeClusters).when(_clusterer).createClusters();
+        threeClusters.add(clusterOne);
+        Mockito.doReturn(threeClusters).when(_clusterer).createClusters(searchResults);
 
         //When
         // create clusters and assign popularity based on number of documents per cluster
@@ -116,9 +116,9 @@ public class CategoryPopularityTest {
         // Then
         // clusters should only have three cluster with popularity of 0.6, 0.3 and 0.1
         List<Cluster> clusters = documentManager.getClusters();
-        Cluster cluster1 = clusters.get(0);
-        Cluster cluster2 = clusters.get(1);
-        Cluster cluster3 = clusters.get(2);
+        Cluster cluster1 = clusters.get(2);
+        Cluster cluster2 = clusters.get(0);
+        Cluster cluster3 = clusters.get(1);
         assertEquals(0.6,cluster2.getPopularity(),Double.POSITIVE_INFINITY);
         assertEquals(0.3,cluster3.getPopularity(),Double.POSITIVE_INFINITY);
         assertEquals(0.1,cluster1.getPopularity(),Double.POSITIVE_INFINITY);

@@ -18,7 +18,7 @@ public class CategoryRelevanceTest {
     ITextSummariser _summariser;
 
     @Before
-    public void setUp() {
+    public void setUpTwoClusters() {
         //Given
         _clusterer = Mockito.mock(IClusterer.class);
         _extractor = Mockito.mock(IKeywordExtractor.class);
@@ -46,7 +46,7 @@ public class CategoryRelevanceTest {
         List<Cluster> twoClusters = new ArrayList<Cluster>();
         twoClusters.add(clusterOne);
         twoClusters.add(clusterTwo);
-        Mockito.doReturn(twoClusters).when(_clusterer).createClusters();
+        Mockito.doReturn(twoClusters).when(_clusterer).createClusters(searchResults);
 
         // create clusters
         _documentManager.createClusters();
@@ -95,11 +95,20 @@ public class CategoryRelevanceTest {
     }
 
     @Test(expected = InvalidOperationException.class)
-    public void testAddRelevanceBeyondNoOfClusters() {
+    public void testAddRelevanceAtPositiveClusterPosition() {
         // When
-        _documentManager.setClusterRelevance(0,1);
+        _documentManager.setClusterRelevance(0,0.8);
         _documentManager.setClusterRelevance(1,0.1);
         // invalid third cluster being set a valid relevance
         _documentManager.setClusterRelevance(2,0.1);
+    }
+
+    @Test(expected = InvalidOperationException.class)
+    public void testAddRelevanceAtNegativeClusterPosition() {
+        // When
+        _documentManager.setClusterRelevance(0,0.8);
+        _documentManager.setClusterRelevance(1,0.1);
+        // invalid third cluster being set a valid relevance
+        _documentManager.setClusterRelevance(-1,0.1);
     }
 }

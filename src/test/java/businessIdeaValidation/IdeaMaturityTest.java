@@ -17,7 +17,7 @@ public class IdeaMaturityTest {
     ITextSummariser _summariser;
 
     @Before
-    public void setUp() {
+    public void setUpTwoClusters() {
         //Given
         _clusterer = Mockito.mock(IClusterer.class);
         _extractor = Mockito.mock(IKeywordExtractor.class);
@@ -46,11 +46,11 @@ public class IdeaMaturityTest {
         clusterTwo.add(docTwo3);
 
         List<Cluster> twoClusters = new ArrayList<Cluster>();
-        twoClusters.add(clusterOne);
         twoClusters.add(clusterTwo);
-        Mockito.doReturn(twoClusters).when(_clusterer).createClusters();
+        twoClusters.add(clusterOne);
+        Mockito.doReturn(twoClusters).when(_clusterer).createClusters(searchResults);
 
-        // create clusters
+        // create clusters and assign popularity
         _documentManager.createClusters();
         _documentManager.assignPopularityToClusters();
     }

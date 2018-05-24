@@ -18,7 +18,7 @@ public class DocumentManager {
     }
 
     public void createClusters(){
-        _clusters = _clusterer.createClusters();
+        _clusters = _clusterer.createClusters(_searchResults);
     }
 
     public List<Cluster> getClusters(){
