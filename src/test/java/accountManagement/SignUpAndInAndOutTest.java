@@ -122,7 +122,7 @@ public class SignUpAndInAndOutTest {
         _accountManager.signIn(_email, _password);
 
         // Then
-        Assert.assertTrue(_accountManager.accountSignedIn());
+        Assert.assertTrue(_accountManager.isAccountSignedIn());
     }
 
     @Test(expected = InvalidCredentialException.class)
@@ -156,13 +156,13 @@ public class SignUpAndInAndOutTest {
         Mockito.doReturn(iterable).when(_collection).find(createSearchQuery(_email));
 
         _accountManager.signIn(_email, _password);
-        Assert.assertTrue(_accountManager.accountSignedIn());
+        Assert.assertTrue(_accountManager.isAccountSignedIn());
 
         // When
         _accountManager.signOff();
 
         // Then
-        Assert.assertFalse(_accountManager.accountSignedIn());
+        Assert.assertFalse(_accountManager.isAccountSignedIn());
     }
 
     // ADMIN UPGRADE USER
