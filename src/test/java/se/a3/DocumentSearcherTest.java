@@ -1,3 +1,5 @@
+package se.a3;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -25,7 +27,7 @@ public class DocumentSearcherTest {
     }
 
     @Test
-    public void testDocumentSearcherReturnsResults() {
+    public void shouldReturnDocumentsWhenKeywordsAreGiven() {
         // Given
         searchResults = new ArrayList<String>();
         searchResults.add("");
@@ -42,7 +44,7 @@ public class DocumentSearcherTest {
     }
 
     @Test
-    public void testSearchWithNoKeywords() {
+    public void shouldReturnNoDocumentsWhenNoKeywordsAreGiven() {
         // Given
         KeywordCollection keywords = null;
 

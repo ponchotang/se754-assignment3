@@ -1,3 +1,5 @@
+package se.a3;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -8,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class DocumentClusteringSummaryTest {
+public class DocumentManagerSummaryTest {
     List<Document> searchResults;
     List<Category> clusters;
 
@@ -42,7 +44,7 @@ public class DocumentClusteringSummaryTest {
     }
 
     @Test
-    public void testCategoryHasSummary() {
+    public void shouldGenerateSummaryWhenClustersAreCreated() {
         // Given
         String summaryText = "a lot of ones";
         documentManager = new DocumentManager(searchResults, clusterer, null, summariser);
@@ -58,7 +60,7 @@ public class DocumentClusteringSummaryTest {
     }
 
     @Test(expected = DocumentsNotClusteredException.class)
-    public void testGenerateSummaryWithoutFirstClustering() {
+    public void shouldThrowExceptionWhenGeneratingSummariesWithoutCreatingCluster() {
         // Given
         documentManager = new DocumentManager(searchResults, clusterer, null, summariser);
 
