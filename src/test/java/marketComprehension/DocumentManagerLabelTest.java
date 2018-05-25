@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class DocumentClusteringLabelTest {
+public class DocumentManagerLabelTest {
     List<Document> searchResults;
     List<Category> clusters;
 
@@ -43,7 +43,7 @@ public class DocumentClusteringLabelTest {
     }
 
     @Test
-    public void testCategoryIsLabelled() {
+    public void shouldGenerateLabelsWhenClustersAreCreated() {
         // Given
         documentManager = new DocumentManager(searchResults, clusterer, extractor, null);
         Mockito.doReturn("one").when(extractor).extractKeywords("one one");
@@ -58,7 +58,7 @@ public class DocumentClusteringLabelTest {
     }
 
     @Test(expected = DocumentsNotClusteredException.class)
-    public void testGenerateLabelWithoutFirstClustering() {
+    public void shouldThrowExceptionWhenGeneratingLabelsWithoutCreatingCluster() {
         // Given
         documentManager = new DocumentManager(searchResults, clusterer, extractor, null);
 

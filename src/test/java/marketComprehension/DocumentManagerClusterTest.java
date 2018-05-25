@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class DocumentClusteringTest {
+public class DocumentManagerClusterTest {
     List<Document> searchResults;
     List<Category> clusters;
 
@@ -29,7 +29,7 @@ public class DocumentClusteringTest {
     }
 
     @Test
-    public void testDocumentsAreClustered() {
+    public void shouldClusterDocumentsWhenDocumentsAreRetrieved() {
         // Given
         searchResults.add(new Document("one"));
         searchResults.add(new Document("one"));
@@ -51,7 +51,7 @@ public class DocumentClusteringTest {
     }
 
     @Test
-    public void testNoDocumentsToCluster() {
+    public void shouldCreateNoClustersWhenNoDocumentsRetrieved() {
         // Given
         documentManager = new DocumentManager(searchResults, clusterer, null, null);
 
@@ -60,5 +60,30 @@ public class DocumentClusteringTest {
 
         // Then
         assertEquals(0, documentManager.getClusters().size());
+    }
+
+    @Test
+    public void shouldContainAssociatedDocumentsWhenClustersAreMade() {
+        // Given
+        String documentContentsString = "one one";
+
+        searchResults.add(new Document("one"));
+        searchResults.add(new Document("one"));
+        searchResults.add(new Document("two"));
+        searchResults.add(new Document("two"));
+        searchResults.add(new Document("three"));
+
+        clusters.add(new Category(searchResults.subList(0, 2)));
+        clusters.add(new Category(searchResults.subList(2, 4)));
+        clusters.add(new Category(searchResults.subList(4, 5)));
+
+        documentManager = new DocumentManager(searchResults, clusterer, null, null);
+
+        // When
+        documentManager.createClusters();
+        Category cluster = documentManager.getClusters().get(0);
+
+        // Then
+        assertEquals(documentContentsString, cluster.getDocumentContents());
     }
 }

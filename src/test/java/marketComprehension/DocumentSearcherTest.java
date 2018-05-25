@@ -25,7 +25,7 @@ public class DocumentSearcherTest {
     }
 
     @Test
-    public void testDocumentSearcherReturnsResults() {
+    public void shouldReturnDocumentsWhenKeywordsAreGiven() {
         // Given
         searchResults = new ArrayList<String>();
         searchResults.add("");
@@ -42,7 +42,7 @@ public class DocumentSearcherTest {
     }
 
     @Test
-    public void testSearchWithNoKeywords() {
+    public void shouldReturnNoDocumentsWhenNoKeywordsAreGiven() {
         // Given
         KeywordCollection keywords = null;
 
