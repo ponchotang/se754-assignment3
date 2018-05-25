@@ -1,3 +1,5 @@
+package se.a3.marketComprehension;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

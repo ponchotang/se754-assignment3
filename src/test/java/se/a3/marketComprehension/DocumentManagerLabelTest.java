@@ -1,5 +1,8 @@
+package se.a3.marketComprehension;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import se.a3.*;
 
@@ -8,14 +11,14 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class DocumentManagerSummaryTest {
+public class DocumentManagerLabelTest {
     List<Document> searchResults;
     List<Category> clusters;
 
     DocumentManager documentManager;
 
     IClusterer clusterer;
-    ITextSummariser summariser;
+    IKeywordExtractor extractor;
 
     @Before
     public void setUp() {
@@ -36,33 +39,32 @@ public class DocumentManagerSummaryTest {
         clusters.add(catThree);
 
         clusterer = Mockito.mock(IClusterer.class);
-        summariser = Mockito.mock(ITextSummariser.class);
+        extractor = Mockito.mock(IKeywordExtractor.class);
 
         Mockito.doReturn(clusters).when(clusterer).createClusters(searchResults);
     }
 
     @Test
-    public void shouldGenerateSummaryWhenClustersAreCreated() {
+    public void shouldGenerateLabelsWhenClustersAreCreated() {
         // Given
-        String summaryText = "a lot of ones";
-        documentManager = new DocumentManager(searchResults, clusterer, null, summariser);
-        Mockito.doReturn(summaryText).when(summariser).summarise("one one");
+        documentManager = new DocumentManager(searchResults, clusterer, extractor, null);
+        Mockito.doReturn("one").when(extractor).extractKeywords("one one");
 
         // When
         documentManager.createClusters();
-        documentManager.generateSummaries();
+        documentManager.generateLabels();
         Category category = documentManager.getClusters().get(0);
 
         // Then
-        assertEquals(summaryText, category.getSummary());
+        assertEquals("one", category.getLabel());
     }
 
     @Test(expected = DocumentsNotClusteredException.class)
-    public void shouldThrowExceptionWhenGeneratingSummariesWithoutCreatingCluster() {
+    public void shouldThrowExceptionWhenGeneratingLabelsWithoutCreatingCluster() {
         // Given
-        documentManager = new DocumentManager(searchResults, clusterer, null, summariser);
+        documentManager = new DocumentManager(searchResults, clusterer, extractor, null);
 
         // When
-        documentManager.generateSummaries();
+        documentManager.generateLabels();
     }
 }

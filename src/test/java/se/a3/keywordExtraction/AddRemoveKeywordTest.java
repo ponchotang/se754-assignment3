@@ -1,4 +1,4 @@
-package keywordExtraction;
+package se.a3.keywordExtraction;
 
 import org.junit.Assert;
 import org.junit.Test;

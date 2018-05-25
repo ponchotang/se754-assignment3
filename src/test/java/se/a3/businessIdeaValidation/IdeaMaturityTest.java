@@ -1,4 +1,4 @@
-package businessIdeaValidation;
+package se.a3.businessIdeaValidation;
 
 import org.junit.Before;
 import org.junit.Test;
