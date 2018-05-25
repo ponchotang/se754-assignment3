@@ -1,4 +1,4 @@
-package se.a3.marketComprehension;
+package se.a3;
 
 import org.junit.Before;
 import org.junit.Test;
