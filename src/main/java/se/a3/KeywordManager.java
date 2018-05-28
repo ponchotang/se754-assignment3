@@ -22,7 +22,7 @@ public class KeywordManager {
     public KeywordCollection removeWord(int index) throws ArrayIndexOutOfBoundsException{
         ArrayList<Keyword> list = _collection.getList();
         list.remove(index);
-        adjustWeights(index,list,-1);
+        adjustWeights(list);
         KeywordCollection newCollection = new KeywordCollection(list);
         return newCollection;
     }
@@ -33,16 +33,15 @@ public class KeywordManager {
         word.setWeight(pos);
         list.remove(index);
         list.add(pos,word);
-        adjustWeights(0,list,1);
+        adjustWeights(list);
         KeywordCollection newCollection = new KeywordCollection(list);
         return newCollection;
     }
 
-    public void adjustWeights(int index, ArrayList<Keyword> list, int weight){
-        for (int i = index; i < list.size(); i++){
+    public void adjustWeights(ArrayList<Keyword> list){
+        for (int i = 0; i < list.size(); i++){
             Keyword word = list.get(i);
-            int wordWeight = word.getWeight();
-            word.setWeight(wordWeight+weight);
+            word.setWeight(i + 1);
         }
     }
 }
