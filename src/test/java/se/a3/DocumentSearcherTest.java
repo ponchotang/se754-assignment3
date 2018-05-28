@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
 
 public class DocumentSearcherTest {
     DocumentSearcher searcher;
@@ -42,7 +43,7 @@ public class DocumentSearcherTest {
 
         // Then
         assertEquals(3, resultsAsDocuments.size());
-        Mockito.verify(searchEngine, Mockito.times(1));
+        Mockito.verify(searchEngine, times(1)).search(keywords);
     }
 
     @Test
