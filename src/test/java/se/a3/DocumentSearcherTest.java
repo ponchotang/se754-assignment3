@@ -29,18 +29,20 @@ public class DocumentSearcherTest {
     @Test
     public void shouldReturnDocumentsWhenKeywordsAreGiven() {
         // Given
+        KeywordCollection keywords = new KeywordCollection("one two three four");
         searchResults = new ArrayList<String>();
         searchResults.add("");
         searchResults.add("");
         searchResults.add("");
 
-        Mockito.doReturn(searchResults).when(searchEngine).search("one two three four");
+        Mockito.doReturn(searchResults).when(searchEngine).search(keywords);
 
         // When
-        List<Document> resultsAsDocuments = searcher.search(new KeywordCollection("one two three four"));
+        List<Document> resultsAsDocuments = searcher.search(keywords);
 
         // Then
         assertEquals(3, resultsAsDocuments.size());
+        Mockito.verify(searchEngine, Mockito.times(1));
     }
 
     @Test
