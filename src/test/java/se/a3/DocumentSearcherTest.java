@@ -56,5 +56,6 @@ public class DocumentSearcherTest {
 
         // Then
         assertEquals(0, resultsAsDocuments.size());
+        Mockito.verify(searchEngine, times(0)).search(keywords);
     }
 }
