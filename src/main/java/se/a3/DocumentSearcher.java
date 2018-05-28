@@ -15,7 +15,7 @@ public class DocumentSearcher {
             return new ArrayList<Document>();
         }
 
-        List<String> searchResults = _searchEngine.search(keywords.getString());
+        List<String> searchResults = _searchEngine.search(keywords);
         List<Document> resultsAsDocuments = new ArrayList<Document>();
 
         for (String searchResult: searchResults) {
