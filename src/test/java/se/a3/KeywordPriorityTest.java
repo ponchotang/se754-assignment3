@@ -37,6 +37,7 @@ public class KeywordPriorityTest {
 
         //Then
         Assert.assertEquals("words Here are five key", swappedCollection.getString());
+        Assert.assertTrue(verifyKeywordPriority(swappedCollection));
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
