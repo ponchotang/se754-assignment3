@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class KeywordPriorityTest {
     @Test
-    public void testSwapAdjacentWords(){
+    public void shouldSwapAdjacentWordsWhenWordsInCollection(){
         //Given
         String userText = "Here are five key words";
 
@@ -26,7 +26,7 @@ public class KeywordPriorityTest {
     }
 
     @Test
-    public void testSwapEndingWords(){
+    public void shouldSwapEndingWordsWhenWordsInCollection(){
         //Given
         String userText = "Here are five key words";
 
@@ -40,7 +40,19 @@ public class KeywordPriorityTest {
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testChangePriorityOutOfBounds(){
+    public void shouldThrowIndexExceptionWhenSwapNoWordsInCollection(){
+        //Given
+        String userText = "";
+
+        //When
+        KeywordCollection collection = new KeywordCollection(userText);
+        KeywordManager keywordManager = new KeywordManager(collection);
+        KeywordCollection swappedCollection = keywordManager.changePriority(0,0);
+
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void shouldThrowIndexExceptionWhenSwapWordsOutOfBounds(){
         //Given
         String userText = "Here are five key words";
 
@@ -51,7 +63,7 @@ public class KeywordPriorityTest {
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void testChangePriorityArrayOutOfBounds(){
+    public void shouldThrowArrayExceptionWhenSwapWordAtOutOfBoundsIndex(){
         //Given
         String userText = "Here are five key words";
 
