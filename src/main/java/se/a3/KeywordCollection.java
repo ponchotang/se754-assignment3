@@ -9,7 +9,7 @@ public class KeywordCollection {
             String[] keywords = text.split(" ");
 
             for (int i = 0; i < keywords.length; i++){
-                Keyword word = new Keyword(keywords[i]);
+                Keyword word = new Keyword(keywords[i].replace("_"," "));
                 word.setWeight(i+1);
                 _list.add(word);
             }
