@@ -1,4 +1,4 @@
-package accountManagement;
+package se.a3;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -9,10 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import se.a3.Account;
-import se.a3.AccountManager;
-import se.a3.InvalidOperationException;
-import se.a3.NotSignedInException;
+import se.a3.*;
 
 public class SessionCountTest {
     MongoClient _mongoClient;
@@ -78,7 +75,7 @@ public class SessionCountTest {
     }
 
     @Test
-    public void shouldIncrementSessionCountWhenUserIsSignedIn(){
+    public void shouldIncrementBothCurrentSessionAndTotalSearchCountWhenUserIsSignedIn(){
         // Given
         FindIterable iterable = Mockito.mock(FindIterable.class);
         Mockito.doReturn(createDocumentForAccount(_email,_password,Account.AccountType.USER, 0)).when(iterable).first();
@@ -93,7 +90,7 @@ public class SessionCountTest {
     }
 
     @Test
-    public void shouldIncrementSessionCountWhenAdminIsSignedIn(){
+    public void shouldIncrementBothCurrentSessionAndTotalSearchCountWhenAdminIsSignedIn(){
         // Given
         FindIterable iterable = Mockito.mock(FindIterable.class);
         Mockito.doReturn(createDocumentForAccount(_email,_password,Account.AccountType.ADMIN, 0)).when(iterable).first();
@@ -146,9 +143,8 @@ public class SessionCountTest {
     }
 
 
-    // Get TOTAL session count for user, admin, not signed in
     @Test(expected = InvalidOperationException.class)
-    public void shouldThrowExceptionWhenGetTotalSessionCountWhenUserSignedIn(){
+    public void shouldThrowExceptionWhenGetTotalSessionCountForRequestedUserWhenUserSignedIn(){
         // Given
         FindIterable iterable = Mockito.mock(FindIterable.class);
         Mockito.doReturn(createDocumentForAccount(_email,_password,Account.AccountType.USER, 0)).when(iterable).first();
@@ -160,7 +156,7 @@ public class SessionCountTest {
         _accountManager.getTotalSessionCount("test@email.com");
     }
     @Test
-    public void shouldGetTotalSessionCountWhenAdminSignedIn(){
+    public void shouldGetTotalSessionCountForRequestedUserWhenAdminSignedIn(){
         // Given
         FindIterable iterable = Mockito.mock(FindIterable.class);
         Mockito.doReturn(createDocumentForAccount(_email,_password,Account.AccountType.ADMIN, 0)).when(iterable).first();
@@ -169,17 +165,25 @@ public class SessionCountTest {
 
         // When
         FindIterable iterableOtherAccount = Mockito.mock(FindIterable.class);
-        Mockito.doReturn(createDocumentForAccount("test@email.com",_password,Account.AccountType.ADMIN, 1)).when(iterableOtherAccount).first();
+        Mockito.doReturn(createDocumentForAccount("test@email.com",_password,Account.AccountType.USER, 1)).when(iterableOtherAccount).first();
         Mockito.doReturn(iterableOtherAccount).when(_collection).find(createSearchQuery("test@email.com"));
 
         // Then
         Assert.assertEquals(_accountManager.getTotalSessionCount("test@email.com"),1);
     }
 
-    @Test(expected = NotSignedInException.class)
-    public void shouldThrowExceptionWhenGet(){
+    @Test(expected = AccountDoesNotExistException.class)
+    public void shouldThrowExceptionWhenGetTotalSessionCountForInvalidAccountWhenAdminSignedIn(){
+        // Given
+        FindIterable iterable = Mockito.mock(FindIterable.class);
+        Mockito.doReturn(createDocumentForAccount(_email,_password,Account.AccountType.ADMIN, 0)).when(iterable).first();
+        Mockito.doReturn(iterable).when(_collection).find(createSearchQuery(_email));
+        _accountManager.signIn(_email, _password);
+
         // When
-        _accountManager.getRegisteredUsersCount();
+        Mockito.doReturn(null).when(_collection).find(createSearchQuery("test@email.com"));
+
+        _accountManager.getTotalSessionCount("test@email.com");
     }
 
     private Document createSearchQuery(String email){

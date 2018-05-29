@@ -24,6 +24,7 @@ public class AccountManager {
         this.mongoClient = mongoClient;
         this.mongoDatabase = this.mongoClient.getDatabase(accountDatabaseName);
         this.mongoCollection = this.mongoDatabase.getCollection(accountCollectionName);
+
         _currentSessionSearchCount = 0;
         _signedInAccountEmail = null;
     }
@@ -46,9 +47,7 @@ public class AccountManager {
         document.put(TYPE, Account.AccountType.USER);
         document.put(COUNT, 0);
 
-        if(emailAlreadyUsed(email)){
-            throw new AccountExistException();
-        }
+        if(this.emailAlreadyUsed(email)) throw new AccountExistException();
 
         this.mongoCollection.insertOne(document);
     }
@@ -58,45 +57,36 @@ public class AccountManager {
         searchQuery.put(EMAIL, email);
         FindIterable<Document> cursor = this.mongoCollection.find(searchQuery);
 
-        if (cursor.first() != null) {
-            return true;
-        }
-        return false;
+        return cursor.first() != null;
     }
 
     public void changeAccountType(String email, Account.AccountType accountType){
-        if(isAccountAdmin()) {
-            Document searchQuery = new Document();
-            searchQuery.put(EMAIL, email);
-            Document updateQuery = new Document();
-            updateQuery.put(TYPE, accountType);
-            this.mongoCollection.findOneAndUpdate(searchQuery, updateQuery);
-        } else {
-            throw new InvalidOperationException();
-        }
-    }
-
-    public void signIn(String email, String password){
-        this.checkStringNotEmpty(email);
-        this.checkStringNotEmpty(password);
+        if(!this.isAccountAdmin()) throw new InvalidOperationException();
 
         Document searchQuery = new Document();
         searchQuery.put(EMAIL, email);
+        Document updateQuery = new Document();
+        updateQuery.put(TYPE, accountType);
+        this.mongoCollection.findOneAndUpdate(searchQuery, updateQuery);
+    }
+
+    public void signIn(String submittedEmail, String submittedPassword){
+        this.checkStringNotEmpty(submittedEmail);
+        this.checkStringNotEmpty(submittedPassword);
+
+        Document searchQuery = new Document();
+        searchQuery.put(EMAIL, submittedEmail);
         FindIterable<Document> cursor = this.mongoCollection.find(searchQuery);
 
         Document userInfo = cursor.first();
 
-        if(userInfo == null){
-            throw new InvalidCredentialException();
-        }
+        if(userInfo == null) throw new InvalidCredentialException();
 
-        String truePassword = userInfo.get(PASSWORD,String.class);
+        String userPassword = userInfo.get(PASSWORD,String.class);
 
-        if(!truePassword.equals(password)){
-            throw new InvalidCredentialException();
-        }
+        if(!userPassword.equals(submittedPassword)) throw new InvalidCredentialException();
 
-        _signedInAccountEmail = email;
+        _signedInAccountEmail = submittedEmail;
         _currentSessionSearchCount = 0;
     }
     public void signOff(){
@@ -108,34 +98,26 @@ public class AccountManager {
     }
 
     public int getRegisteredUsersCount(){
-        if(this.isAccountAdmin()){
-            return (int)mongoCollection.count();
-        } else {
-            throw new InvalidOperationException();
-        }
+        if(!this.isAccountAdmin()) throw new InvalidOperationException();
+        return (int)mongoCollection.count();
     }
 
-
     private void checkStringNotEmpty(String str){
-        if(str == null || str.equals("")){
-            throw new InvalidCredentialException();
-        }
+        if(str == null || str.equals("")) throw new InvalidCredentialException();
     }
 
     public void incrementSearchCount(){
         this.checkAccountSignedIn();
-        Document currDoc = this.getDocument(_signedInAccountEmail);
-        if(currDoc == null) throw new AccountExistException();
+        Document userInfo = this.getDocument(_signedInAccountEmail);
 
-        int count = currDoc.getInteger(COUNT);
+        int count = userInfo.getInteger(COUNT);
         count++;
 
-        currDoc.put(COUNT, count);
+        userInfo.put(COUNT, count);
 
         Document searchQuery = new Document();
-        this.checkAccountSignedIn();
         searchQuery.put(EMAIL, _signedInAccountEmail);
-        this.mongoCollection.findOneAndUpdate(searchQuery, currDoc);
+        this.mongoCollection.findOneAndUpdate(searchQuery, userInfo);
 
         _currentSessionSearchCount++;
     }
@@ -144,7 +126,7 @@ public class AccountManager {
         Document searchQuery = new Document();
         searchQuery.put(EMAIL, email);
         FindIterable<Document> cursor = this.mongoCollection.find(searchQuery);
-
+        if(cursor == null) throw new AccountDoesNotExistException();
         return cursor.first();
     }
 
@@ -155,11 +137,8 @@ public class AccountManager {
 
     private boolean isAccountAdmin(){
         this.checkAccountSignedIn();
-        Document currDoc = this.getDocument(_signedInAccountEmail);
-        if(currDoc.get(TYPE) == Account.AccountType.ADMIN){
-            return true;
-        }
-        return false;
+        Document accountInfo = this.getDocument(_signedInAccountEmail);
+        return accountInfo.get(TYPE) == Account.AccountType.ADMIN;
     }
 
     private void checkAccountSignedIn(){
@@ -170,9 +149,8 @@ public class AccountManager {
         this.checkAccountSignedIn();
         if(!isAccountAdmin()) throw new InvalidOperationException();
 
-        Document currDoc = this.getDocument(email);
-        if(currDoc == null) throw new AccountExistException();
+        Document userInfo = this.getDocument(email);
 
-        return currDoc.getInteger(COUNT);
+        return userInfo.getInteger(COUNT);
     }
 }
