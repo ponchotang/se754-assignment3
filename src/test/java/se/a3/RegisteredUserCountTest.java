@@ -1,4 +1,4 @@
-package accountManagement;
+package se.a3;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -43,14 +43,10 @@ public class RegisteredUserCountTest {
         _password = "hunter2";
     }
 
-
-
-
-    // Get number of registered user for user, admin, not signed in
     @Test(expected = InvalidOperationException.class)
     public void shouldThrowExceptionWhenTryingToGetNumberOfRegisteredUsersWhenUserSignedIn(){
         // Given
-        FindIterable iterable = Mockito.mock(FindIterable.class);
+        FindIterable<Document> iterable = Mockito.mock(FindIterable.class);
         Mockito.doReturn(getDocumentForAccount(_email,_password,Account.AccountType.USER, 0)).when(iterable).first();
         Mockito.doReturn(iterable).when(_collection).find(getSearchQuery(_email));
 

@@ -1,4 +1,4 @@
-package accountManagement;
+package se.a3;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
@@ -24,7 +24,6 @@ public class AccountManagerPersistenceTest {
 
     @Test
     public void shouldInitializeMongoDBClientWhenCreating() {
-
         // Given
         Mockito.doReturn(_mongoDatabase).when(_mongoClient).getDatabase(_accountDBName);
 
