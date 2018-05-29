@@ -5,12 +5,14 @@ public class KeywordCollection {
     private ArrayList<Keyword> _list = new ArrayList<Keyword>();
 
     public KeywordCollection(String text){
-        String[] keywords = text.split(" ");
+        if (text != ""){
+            String[] keywords = text.split(" ");
 
-        for (int i = 0; i < keywords.length; i++){
-            Keyword word = new Keyword(keywords[i]);
-            word.setWeight(i+1);
-            _list.add(word);
+            for (int i = 0; i < keywords.length; i++){
+                Keyword word = new Keyword(keywords[i].replace("_"," "));
+                word.setWeight(i+1);
+                _list.add(word);
+            }
         }
     }
 

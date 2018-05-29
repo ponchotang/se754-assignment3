@@ -1,3 +1,5 @@
+package se.a3;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
 
 public class DocumentSearcherTest {
     DocumentSearcher searcher;
@@ -25,24 +28,26 @@ public class DocumentSearcherTest {
     }
 
     @Test
-    public void testDocumentSearcherReturnsResults() {
+    public void shouldReturnDocumentsWhenKeywordsAreGiven() {
         // Given
+        KeywordCollection keywords = new KeywordCollection("one two three four");
         searchResults = new ArrayList<String>();
         searchResults.add("");
         searchResults.add("");
         searchResults.add("");
 
-        Mockito.doReturn(searchResults).when(searchEngine).search("one two three four");
+        Mockito.doReturn(searchResults).when(searchEngine).search(keywords);
 
         // When
-        List<Document> resultsAsDocuments = searcher.search(new KeywordCollection("one two three four"));
+        List<Document> resultsAsDocuments = searcher.search(keywords);
 
         // Then
         assertEquals(3, resultsAsDocuments.size());
+        Mockito.verify(searchEngine, times(1)).search(keywords);
     }
 
     @Test
-    public void testSearchWithNoKeywords() {
+    public void shouldReturnNoDocumentsWhenNoKeywordsAreGiven() {
         // Given
         KeywordCollection keywords = null;
 
@@ -51,5 +56,6 @@ public class DocumentSearcherTest {
 
         // Then
         assertEquals(0, resultsAsDocuments.size());
+        Mockito.verify(searchEngine, times(0)).search(keywords);
     }
 }

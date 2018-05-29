@@ -1,4 +1,4 @@
-package businessIdeaValidation;
+package se.a3;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +56,7 @@ public class IdeaMaturityTest {
     }
 
     @Test
-    public void testMaturityWithAllRelevanceAssigned() {
+    public void shouldCalculateMaturityWhenAllClusterRelevancesAreSet() {
         // When
         _documentManager.setClusterRelevance(0,1);
         _documentManager.setClusterRelevance(1,0.1);
@@ -67,7 +67,7 @@ public class IdeaMaturityTest {
 
 
     @Test(expected = InvalidOperationException.class)
-    public void testMaturityWithNotAllRelevanceAssigned() {
+    public void shouldThrowExceptionWhenNotAllClusterRelevancesAreSet() {
         // When
         // only relevance of one of two clusters set
         _documentManager.setClusterRelevance(0, 1);

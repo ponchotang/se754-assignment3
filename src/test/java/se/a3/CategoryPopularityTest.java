@@ -1,4 +1,4 @@
-package businessIdeaValidation;
+package se.a3;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class CategoryPopularityTest {
     }
 
     @Test
-    public void testPopularityWhenOnlyOneCluster() {
+    public void shouldHavePopularityOfOneWhenOnlyOneCluster() {
         //Given
         // Search results of one document
         List<Document> searchResults = new ArrayList<Document>();
@@ -54,7 +54,7 @@ public class CategoryPopularityTest {
     }
 
     @Test
-    public void testPopularityWhenThreeClusters() {
+    public void shouldProportionatePopularitiesWhenMoreThanOneCluster() {
         //Given
         // Search results of ten documents
         List<Document> searchResults = new ArrayList<Document>();
