@@ -68,7 +68,7 @@ public class CategoryRelevanceTest {
     }
 
     @Test
-    public void shouldStillSetRelevanceWhenGivenBoundaryValues() {
+    public void shouldStillSetRelevanceWhenGivenValidBoundaryValues() {
         // When
         _documentManager.setClusterRelevance(0,1);
         _documentManager.setClusterRelevance(1,0);
@@ -83,7 +83,7 @@ public class CategoryRelevanceTest {
     }
 
     @Test(expected = InvalidOperationException.class)
-    public void shouldThrowExceptionWhenRelevanceIsOutOfExpectedRange() {
+    public void shouldThrowExceptionWhenRelevanceValueIsAboveValidRange() {
         // When
         _documentManager.setClusterRelevance(0,3);
     }
@@ -95,7 +95,7 @@ public class CategoryRelevanceTest {
     }
 
     @Test(expected = InvalidOperationException.class)
-    public void shouldThrowExceptionWhenSettingRelevanceForOutOfRangeCluster() {
+    public void shouldThrowExceptionWhenSettingRelevanceForOverRangePositionCluster() {
         // When
         _documentManager.setClusterRelevance(0,0.8);
         _documentManager.setClusterRelevance(1,0.1);
@@ -104,7 +104,7 @@ public class CategoryRelevanceTest {
     }
 
     @Test(expected = InvalidOperationException.class)
-    public void shouldThrowExceptionWhenSettingRelevanceForNegativeIndexPosition() {
+    public void shouldThrowExceptionWhenSettingRelevanceForNegativeIndexPositionCluster() {
         // When
         _documentManager.setClusterRelevance(0,0.8);
         _documentManager.setClusterRelevance(1,0.1);
