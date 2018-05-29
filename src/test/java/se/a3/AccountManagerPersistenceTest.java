@@ -35,7 +35,7 @@ public class AccountManagerPersistenceTest {
     }
 
     @Test
-    public void shouldHaveDatabaseWithANameAfterCreatingMyCash() {
+    public void shouldHaveDatabaseWithANameAfterCreatingAccountManager() {
         // Given
         Mockito.doReturn(_accountDBName).when(_mongoDatabase).getName();
         Mockito.doReturn(_mongoDatabase).when(_mongoClient).getDatabase(_accountDBName);
