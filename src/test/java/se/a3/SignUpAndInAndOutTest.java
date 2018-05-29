@@ -1,4 +1,4 @@
-package accountManagement;
+package se.a3;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -67,7 +67,6 @@ public class SignUpAndInAndOutTest {
     @Test(expected = AccountExistException.class)
     public void shouldThrowExceptionWhenRegisteringWithExistingEmail() {
         // Given
-        // account with the email exists
         FindIterable iterable = Mockito.mock(FindIterable.class);
         Mockito.doReturn(new Document()).when(iterable).first();
         Mockito.doReturn(iterable).when(_collection).find(createSearchQuery(_email));
@@ -77,9 +76,8 @@ public class SignUpAndInAndOutTest {
     }
 
     @Test
-    public void shouldRegisterWhenEmailDoesNotExist() {
+    public void shouldRegisterWhenEmailIsUnique() {
         // Given
-        // account with the email doesn't exist
         FindIterable iterable = Mockito.mock(FindIterable.class);
         Mockito.doReturn(iterable).when(_collection).find(createSearchQuery(_email));
 
